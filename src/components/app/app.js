@@ -13,23 +13,48 @@ class App extends Component {
     super(props)
     this.state = {
       data: [
-        { name: "Jhone.S", salary: 1000, increase: true, id: 1 },
-        { name: "Anna.M", salary: 1800, increase: false, id: 2 },
-        { name: "Alex.P", salary: 500, increase: true, id: 3 }
-      ]
+
+      ],
     }
   }
 
 
   deleteItem = (id) => {
-   this.setState (({data}) => {
+    this.setState(({ data }) => {
       return {
         data: data.filter(item => item.id !== id)
       }
-   })
+    })
   }
 
-  
+  addItem = (name, salary) => {
+    this.setState(({ data }) => {
+      data.push(({ name: name, salary: salary, increase: false, rise: false, id: Date.now() }));
+      return {
+        data
+      }
+    })
+  }
+
+
+  onToggleIncrease = (id) => {
+    let index;
+    this.setState = (({ data }) => {
+      index = data.findIndex(item => item.id === id);
+
+      console.log(index);
+    })
+
+  }
+
+  onToggleRise = (id) => {
+    this.setState = (({ data }) => {
+
+      const index = data.findIndex(item => item.id === id);
+      console.log(index);
+
+    })
+  }
 
 
 
@@ -43,8 +68,11 @@ class App extends Component {
           <AppFilter />
         </div>
         <EmployeesList data={this.state.data}
-          onDelete={this.deleteItem} />
-        <EmployeesAddForm />
+          onDelete={this.deleteItem}
+          onToggleIncrease={this.onToggleIncrease}
+          onToggleRise={this.onToggleRise}
+        />
+        <EmployeesAddForm addItem={this.addItem} />
       </div>
     );
   }

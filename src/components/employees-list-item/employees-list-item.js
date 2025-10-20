@@ -1,7 +1,6 @@
 import './employees-list-item.css';
 
 
-import { Component } from 'react';
 function EmployeesListItem(props) {
 
 

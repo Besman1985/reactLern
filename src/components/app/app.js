@@ -12,9 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: [
-
-      ],
+      data: [],
     }
   }
 
@@ -38,21 +36,24 @@ class App extends Component {
 
 
   onToggleIncrease = (id) => {
-    let index;
-    this.setState = (({ data }) => {
-      index = data.findIndex(item => item.id === id);
-
-      console.log(index);
-    })
-
+  this.setState(({data}) => ({
+    data: data.map(item =>
+        item.id === id ? {...item,increase: !item.increase}:item
+    )
+}));
   }
 
   onToggleRise = (id) => {
-    this.setState = (({ data }) => {
-
-      const index = data.findIndex(item => item.id === id);
-      console.log(index);
-
+    const updutedData = this.state.data.map(item => {
+      if (item.id === id) {
+        return {
+          ...item, rise: !item.rise
+        };
+      }
+      return item;
+    });
+    this.setState({
+      data: updutedData
     })
   }
 

@@ -31,14 +31,20 @@ class EmployeesAddForm extends Component {
         })
     }
 
+    onClick = (e) => {
+        e.preventDefault();
+        this.props.addItem(this.state.name, this.state.salery);
+        this.onReset()
+
+    }
+
 
 
     render() {
-        const { addItem } = this.props;
         const { name, salery } = this.state;
-        const reset = this.onReset;
+        
 
-
+        
 
 
         return (
@@ -60,11 +66,7 @@ class EmployeesAddForm extends Component {
 
                     <button type="submit"
                         className="btn btn-outline-light"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            addItem(name, salery);
-                            reset()
-                        }}
+                        onClick={this.onClick}
 
 
                     >Добавить</button>

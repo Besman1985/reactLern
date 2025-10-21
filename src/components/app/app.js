@@ -63,7 +63,7 @@ class App extends Component {
 
     return (
       <div className="app">
-        <AppInfo />
+        <AppInfo allEmployees = {this.state.data.length}  riseTake = {(this.state.data.filter(item => item.increase == true)).length}/>
         <div className="search-panel">
           <SearchPanel />
           <AppFilter />

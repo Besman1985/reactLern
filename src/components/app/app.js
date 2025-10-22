@@ -12,7 +12,12 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: [],
+      data: [
+        { name: 'John C.', salary: 800, increase: false, rise: true, id: 1 },
+        { name: 'Alex M.', salary: 3000, increase: true, rise: false, id: 2 },
+        { name: 'Carl W.', salary: 5000, increase: false, rise: false, id: 3 }
+      ],
+      term: ""
     }
   }
 
@@ -36,11 +41,11 @@ class App extends Component {
 
 
   onToggleIncrease = (id) => {
-  this.setState(({data}) => ({
-    data: data.map(item =>
-        item.id === id ? {...item,increase: !item.increase}:item
-    )
-}));
+    this.setState(({ data }) => ({
+      data: data.map(item =>
+        item.id === id ? { ...item, increase: !item.increase } : item
+      )
+    }));
   }
 
   onToggleRise = (id) => {
@@ -57,18 +62,35 @@ class App extends Component {
     })
   }
 
+  searchEmp =  (items, term) => {
+      if (term.length == 0) {
+        return items;
+      }
+
+      return items.filter(item => {
+        return item.name.indexOf(term) > -1
+      })
+  }
+
+  emplersFilter = (term) => {
+      this.setState({
+          term: term
+      })
+  }
+
 
 
   render() {
-
+const {data,term} = this.state;
+const visibleData = this.searchEmp (data, term);
     return (
       <div className="app">
-        <AppInfo allEmployees = {this.state.data.length}  riseTake = {(this.state.data.filter(item => item.increase == true)).length}/>
+        <AppInfo allEmployees={(data.length)} riseTake={((data.filter(item => item.increase == true)).length)} />
         <div className="search-panel">
-          <SearchPanel />
+          <SearchPanel emplersFilter = {this.emplersFilter}/>
           <AppFilter />
         </div>
-        <EmployeesList data={this.state.data}
+        <EmployeesList data={visibleData}
           onDelete={this.deleteItem}
           onToggleIncrease={this.onToggleIncrease}
           onToggleRise={this.onToggleRise}

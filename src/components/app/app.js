@@ -17,7 +17,8 @@ class App extends Component {
         { name: 'Alex M.', salary: 3000, increase: true, rise: false, id: 2 },
         { name: 'Carl W.', salary: 5000, increase: false, rise: false, id: 3 }
       ],
-      term: ""
+      term: "",
+      filter: "all"
     }
   }
 
@@ -62,33 +63,45 @@ class App extends Component {
     })
   }
 
-  searchEmp =  (items, term) => {
-      if (term.length == 0) {
-        return items;
-      }
+  searchEmp = (items, term) => {
+    if (term.length == 0) {
+      return items;
+    }
 
-      return items.filter(item => {
-        return item.name.indexOf(term) > -1
-      })
+    return items.filter(item => {
+      return item.name.indexOf(term) > -1
+    })
   }
 
   emplersFilter = (term) => {
-      this.setState({
-          term: term
-      })
+    this.setState({
+      term: term
+
+    })
+  }
+  filterPost = (items, filter) => {
+    if (filter === "rise") {
+      return items.filter(item => item.rise === true)
+    } else if (filter === "selaryMore1000") {
+      return items.filter(item => item.salary > 1000)
+    } return items
+  }
+  onFilterSelect = (filter) => {
+  this.setState ({
+    filter: filter
+  });
   }
 
 
-
   render() {
-const {data,term} = this.state;
-const visibleData = this.searchEmp (data, term);
+    const { data, term, filter } = this.state;
+    const visibleData = this.filterPost(this.searchEmp(data, term), filter)
     return (
       <div className="app">
         <AppInfo allEmployees={(data.length)} riseTake={((data.filter(item => item.increase == true)).length)} />
         <div className="search-panel">
-          <SearchPanel emplersFilter = {this.emplersFilter}/>
-          <AppFilter />
+          <SearchPanel emplersFilter={this.emplersFilter} />
+          <AppFilter filter = {filter} onFilterSelect = {this.onFilterSelect} />
         </div>
         <EmployeesList data={visibleData}
           onDelete={this.deleteItem}
